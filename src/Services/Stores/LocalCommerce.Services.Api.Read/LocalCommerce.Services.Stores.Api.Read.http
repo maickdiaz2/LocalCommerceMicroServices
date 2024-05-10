@@ -1,0 +1,6 @@
+@LocalCommerce.Services.Stores.Api.Read_HostAddress = http://localhost:5091
+
+GET {{LocalCommerce.Services.Stores.Api.Read_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

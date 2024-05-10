@@ -1,0 +1,14 @@
+global using LocalCommerce.Shared.Setup;
+global using LocalCommerce.Shared.Serialization;
+global using LocalCommerce.Shared.Secrets;
+global using LocalCommerce.Shared.Setup.Services;
+global using LocalCommerce.Shared.Setup.API;
+global using Microsoft.AspNetCore.Builder;
+global using System;
+global using System.Threading;
+global using System.Threading.Tasks;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.DependencyInjection;
+global using LocalCommerce.Shared.Setup.Databases;
+global using ROP;
+global using ROP.APIExtensions;

@@ -1,0 +1,8 @@
+Server=localhost,1433;User Id=sa;Password=mssql112233*;Encrypt=True;TrustServerCertificate=True
+
+vault-localcommerce-token
+
+docker exec -it k8s_vault_vault-depl-868987558-svjnj_default_5daea703-a768-4194-8a49-666b255bc7d0_11 vault kv put secret/mssql username=sa password=mssql112233*
+docker exec -it vault-depl-868987558-svjnj vault kv put secret/mssql username=sa password=mssql112233*
+
+mssql

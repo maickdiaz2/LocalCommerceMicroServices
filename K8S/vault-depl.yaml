@@ -1,0 +1,82 @@
+
+# Storage for vault
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vault-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vault
+  template:
+    metadata:
+      labels:
+        app: vault
+    spec:
+      containers:
+        - name: vault
+          image: hashicorp/vault:latest
+          securityContext:
+            capabilities:
+              add: ["IPC_LOCK"]
+          ports:
+            - containerPort: 8200
+          # lifecycle:
+          #   postStart:
+          #     exec:
+          #       command:
+          #         - vault kv put secret/mssql username=sa password=mssql112233*
+          #config: | 
+          #  storage "file" { path = "/vault/data" }
+          env:
+          - name: VAULT_ADDR
+            value: "http://127.0.0.1:8200"
+          - name: VAULT_TOKEN
+            value: "vault-localcommerce-token"
+          - name: VAULT_DEV_ROOT_TOKEN_ID
+            value: "vault-localcommerce-token"
+          command: ["vault kv put secret/mssql username=sa password=mssql112233*"]
+          resources:
+            limits:
+              memory: 1024Mi
+              cpu: "1"
+            requests:
+              memory: 512Mi
+              cpu: "0.2"
+          volumeMounts:
+          - name: data
+            mountPath: /vault/data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: vault-pvc
+---
+# Way to access vault internally in kubernetes Cluster/node enviroment
+apiVersion: v1
+kind: Service
+metadata:
+  name: vault-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: vault
+  ports:
+  - name: vault
+    protocol: TCP
+    port: 8200
+    targetPort: 8200
+---
+# Way to access vault for local development purposes
+apiVersion: v1
+kind: Service
+metadata:
+  name: vault-loadbalancer
+spec:
+  type: LoadBalancer
+  selector:
+    app: vault
+  ports:
+  - protocol: TCP
+    port: 8200
+    targetPort: 8200

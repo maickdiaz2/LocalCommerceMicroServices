@@ -1,0 +1,44 @@
+version: "3.9"
+
+networks:
+  app-network-public:
+    driver: bridge
+
+volumes:
+  sql-server-data:
+    driver: local
+  sqldata:
+  sqllog:
+  sqlbackup:
+
+services:
+  vault:
+    image: hashicorp/vault:latest
+    container_name: vault
+    ports:
+      - 8200:8200
+    environment:
+      VAULT_ADDR: "http://127.0.0.1:8200"
+      # in production scenarios the token mechanisim for loggin will be forbidden,
+      # it cannot be in source control.
+      VAULT_TOKEN: "vault-localcommerce-token" # to be able to use the cli on dev
+      VAULT_DEV_ROOT_TOKEN_ID: "vault-localcommerce-token"
+    cap_add:
+      - IPC_LOCK
+  db:
+    image: mcr.microsoft.com/mssql/server
+    container_name: db-sqlserver
+    networks:
+      - app-network-public
+    restart: always
+    env_file:
+      - ./tools/sqlserveridentity/sapassword.env
+      - ./tools/sqlserveridentity/sqlserver.env
+    ports:
+      - '1433:1433'
+    volumes:
+      - sql-server-data:/var/opt/mssql/
+      - sqldata:/var/opt/sqlserver/data
+      - sqllog:/var/opt/sqlserver/log
+      - sqlbackup:/var/opt/sqlserver/backup
+      - /c/docker/shared:/usr/shared
