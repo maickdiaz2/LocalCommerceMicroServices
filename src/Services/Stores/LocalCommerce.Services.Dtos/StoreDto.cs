@@ -2,9 +2,9 @@
 
 public record CreateStoreRequest(StoreDetails Details);
 
-public record StoreDetails(string Name, string Description);
+public record StoreDetails(string? Name, string? Description);
 
-public record FullStoreResponse(int Id, StoreDetails Details);
+public record FullStoreResponse(int? Id, StoreDetails? Details);
 
 public record StoreUpdated(int StoreId, StoreDetails Details);
 

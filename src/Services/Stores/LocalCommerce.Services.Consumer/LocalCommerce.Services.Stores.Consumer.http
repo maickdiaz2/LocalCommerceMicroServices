@@ -1,0 +1,6 @@
+@LocalCommerce.Services.Stores.Consumer_HostAddress = http://localhost:5237
+
+GET {{LocalCommerce.Services.Stores.Consumer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

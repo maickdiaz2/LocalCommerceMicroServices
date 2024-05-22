@@ -1,0 +1,19 @@
+{
+      "users": [],
+      "vhosts": [  { "name": "/"  } ],
+      "permissions": [],
+      "parameters": [],
+      "policies": [  {"vhost":"/","name":"DLX","pattern":".*","apply-to":"queues","definition":{"dead-letter-exchange":"dead-letter.exchange"},"priority":0}],
+      "exchanges": [
+        {"name":"stores.exchange","vhost":"/","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{}}
+        {"name":"dead-letter.exchange","vhost":"/","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{}}
+      ],
+      "queues": [
+        {"name":"store-domain-queue","vhost":"/","durable":true,"auto_delete":false,"arguments":{"x-dead-letter-exchange": "dead-letter.exchange", "x-dead-letter-routing-key": "stores"}},
+        {"name":"store-domain-queue.dead-letter","vhost":"/","durable":true,"auto_delete":false,"arguments":{}}
+      ],
+      "bindings": [
+        {"source":"stores.exchange","vhost":"/","destination":"store-domain-queue","destination_type":"queue","routing_key":"internal","arguments":{}},
+        {"source":"dead-letter.exchange","vhost":"/","destination":"store-domain-queue.dead-letter","destination_type":"queue","routing_key":"stores","arguments":{}}
+      ]
+    }

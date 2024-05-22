@@ -8,10 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!--Reference to the shared setup project and the global usings-->
-    <ProjectReference Include="../../../Shared/LocalCommerce.Shared.Setup/LocalCommerce.Shared.Setup.csproj" />
     <ProjectReference Include="..\LocalCommerce.Services.BusinessLogic\LocalCommerce.Services.Stores.BusinessLogic.csproj" />
-    <ProjectReference Include="..\LocalCommerce.Services.Dtos\LocalCommerce.Services.Stores.Dtos.csproj" />
     <Compile Include="../../../Shared/LocalCommerce.Shared.Setup/GlobalUsings.cs" Link="GlobalUsings.cs" />
   </ItemGroup>
 

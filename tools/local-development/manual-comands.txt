@@ -1,8 +1,33 @@
+
+# Registro de secretos en Kubernetes (para la configuracón de los deployments)
+kubectl create secret generic mssql -from-literal=SA_PASSWORD=mssql112233*
+kubectl create secret generic mongodb-secret --from-literal=username=rootUser --from-literal=password=mongodb123456*
+kubectl create secret generic rabbitmq-secret --from-literal=username=rabbitmqUser --from-literal=password=rabbitmq123*
+
 Server=localhost,1433;User Id=sa;Password=mssql112233*;Encrypt=True;TrustServerCertificate=True
 
+# Registro de secretos en vault para conexión desde los microservicios
+
+docker exec -it <ContainerID> vault kv put secret/mssql username=sa password=mssql112233*
+docker exec -it <ContainerID> vault kv put secret/mongodb username=localcommerce password=localcommerce1223 database=localcommerce
+docker exec -it <ContainerID> vault kv put secret/rabbitmq username=rabbitmqUser password=rabbitmq123*
+
+# Token para authenticación con vault
 vault-localcommerce-token
 
-docker exec -it k8s_vault_vault-depl-868987558-svjnj_default_5daea703-a768-4194-8a49-666b255bc7d0_11 vault kv put secret/mssql username=sa password=mssql112233*
-docker exec -it vault-depl-868987558-svjnj vault kv put secret/mssql username=sa password=mssql112233*
+# RABBITMQ se deben configurar los siguientes exchanges y colas debido a que no fue posible usar los archivos de configuracón (/tool/rabbitmq/)
 
-mssql
+(las siguientes no son lineas son solo de referencia para crear los exchange, queues y bindings usando el UI de rabbitMQ)
+    "exchanges": [
+      {"name":"stores.exchange","vhost":"/","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{}}
+      {"name":"dead-letter.exchange","vhost":"/","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{}}
+    ],
+    "queues": [
+      {"name":"store-domain-queue","vhost":"/","durable":true,"auto_delete":false,"arguments":{"x-dead-letter-exchange": "dead-letter.exchange", "x-dead-letter-routing-key": "stores"}},
+      {"name":"store-domain-queue.dead-letter","vhost":"/","durable":true,"auto_delete":false,"arguments":{}}
+    ],
+    "bindings": [
+      {"source":"stores.exchange","vhost":"/","destination":"store-domain-queue","destination_type":"queue","routing_key":"internal","arguments":{}},
+      {"source":"dead-letter.exchange","vhost":"/","destination":"store-domain-queue.dead-letter","destination_type":"queue","routing_key":"stores","arguments":{}}
+    ]
+

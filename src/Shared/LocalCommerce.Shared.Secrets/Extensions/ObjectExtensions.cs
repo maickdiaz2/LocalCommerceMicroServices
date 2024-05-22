@@ -11,7 +11,7 @@ public static class ObjectExtensions
         {
             var theProperty = someObjectType.GetProperty(item.Key)!;
             
-            theProperty.SetValue(someObject, ((System.Text.Json.JsonElement)item.Value).GetString(), null);//,null);
+            theProperty?.SetValue(someObject, ((System.Text.Json.JsonElement)item.Value).GetString(), null);//,null);
         }
         return someObject;
     }

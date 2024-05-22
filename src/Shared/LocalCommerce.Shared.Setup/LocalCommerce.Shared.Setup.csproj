@@ -12,8 +12,10 @@
   
   <ItemGroup>
     <ProjectReference Include="..\LocalCommerce.Shared.Secrets\LocalCommerce.Shared.Secrets.csproj" />
-    <ProjectReference Include="..\LocalCommerce.Shared.Serialization\LocalCommerce.Shared.Serialization.csproj" />
-	<ProjectReference Include="..\Shared.Databases\LocalCommerce.Shared.Databases.Mssql\LocalCommerce.Shared.Databases.Mssql.csproj" />
+		<ProjectReference Include="..\LocalCommerce.Shared.Serialization\LocalCommerce.Shared.Serialization.csproj" />
+		<ProjectReference Include="..\Shared.Communication\LocalCommerce.Shared.Communication.RabbitMQ\LocalCommerce.Shared.Communication.RabbitMQ.csproj" />
+		<ProjectReference Include="..\Shared.Databases\LocalCommerce.Shared.Databases.Mssql\LocalCommerce.Shared.Databases.Mssql.csproj" />
+		<ProjectReference Include="..\Shared.Databases\LocalCommerce.Shared.Databases.MongoDb\LocalCommerce.Shared.Databases.MongoDb.csproj" />
   </ItemGroup>
 
   <ItemGroup>

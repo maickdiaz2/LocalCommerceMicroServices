@@ -22,11 +22,11 @@ spec:
               add: ["IPC_LOCK"]
           ports:
             - containerPort: 8200
-          # lifecycle:
-          #   postStart:
-          #     exec:
-          #       command:
-          #         - vault kv put secret/mssql username=sa password=mssql112233*
+          lifecycle:
+            postStart:
+              exec:
+                # esta es una forma de crear los secrets debido a que la información se borra con cada reinicio del POD
+                command: [ "/bin/sh", "-c", "sleep 10;vault kv put secret/mssql username=sa password=<contraseña>"]
           #config: | 
           #  storage "file" { path = "/vault/data" }
           env:
@@ -36,7 +36,6 @@ spec:
             value: "vault-localcommerce-token"
           - name: VAULT_DEV_ROOT_TOKEN_ID
             value: "vault-localcommerce-token"
-          command: ["vault kv put secret/mssql username=sa password=mssql112233*"]
           resources:
             limits:
               memory: 1024Mi
@@ -48,7 +47,7 @@ spec:
           - name: data
             mountPath: /vault/data
       volumes:
-        - name: data
+        - name: data # debido al comportamiento de vault los secretos se eliminan con cada reinicio del deploy/pod para persistir la información se deben usar otros metodos
           persistentVolumeClaim:
             claimName: vault-pvc
 ---

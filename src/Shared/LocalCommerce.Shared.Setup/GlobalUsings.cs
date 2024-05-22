@@ -1,6 +1,10 @@
 global using LocalCommerce.Shared.Setup;
 global using LocalCommerce.Shared.Serialization;
 global using LocalCommerce.Shared.Secrets;
+global using LocalCommerce.Shared.Communication.Consumer.Handler;
+global using LocalCommerce.Shared.Communication.Messages;
+global using LocalCommerce.Shared.Communication.Publisher.Integration;
+global using LocalCommerce.Shared.Communication.Publisher.Domain;
 global using LocalCommerce.Shared.Setup.Services;
 global using LocalCommerce.Shared.Setup.API;
 global using Microsoft.AspNetCore.Builder;
