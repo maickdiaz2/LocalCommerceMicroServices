@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\LocalCommerce.Shared.Setup\LocalCommerce.Shared.Setup.csproj" />
-    <ProjectReference Include="..\LocalCommerce.Services.Dtos\LocalCommerce.Services.Stores.Dtos.csproj" />
+    <ProjectReference Include="..\LocalCommerce.Services.Stores.Dtos\LocalCommerce.Services.Stores.Dtos.csproj" />
   </ItemGroup>
 
 </Project>

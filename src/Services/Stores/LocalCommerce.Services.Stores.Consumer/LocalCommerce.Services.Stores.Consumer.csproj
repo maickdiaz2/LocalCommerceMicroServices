@@ -9,7 +9,7 @@
 
   <ItemGroup>
 		<Compile Include="..\..\..\Shared\LocalCommerce.Shared.Setup\GlobalUsings.cs" Link="GlobalUsings.cs" />
-    <ProjectReference Include="..\LocalCommerce.Services.BusinessLogic\LocalCommerce.Services.Stores.BusinessLogic.csproj" />
+    <ProjectReference Include="..\LocalCommerce.Services.Stores.BusinessLogic\LocalCommerce.Services.Stores.BusinessLogic.csproj" />
   </ItemGroup>
 
 </Project>
